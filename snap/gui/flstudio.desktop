@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=FL Studio
+Categories=Sound & Video
+Exec=flstudio %F
+Icon=${SNAP}/meta/gui/icon.png
+Terminal=false
+StartupNotify=true
+StartupWMClass=FL64.exe
