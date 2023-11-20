@@ -59,15 +59,12 @@ apps:
       - network
 
 parts:
-  installer:
-    plugin: dump
-    source: installer
-
   # The sommelier script helps you snap Windows applications using Wine. It 
   # initializes and configures Wine and installs the Windows application.
   sommelier:
     plugin: make
     source: https://github.com/snapcrafters/sommelier-core.git
+    source-commit: be2613a07c064afa824eb65c02ddadbe34018126
 
 # These plugs are used to connect the snap to the wine runtime.
 plugs:
