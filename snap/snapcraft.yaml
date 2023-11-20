@@ -1,6 +1,6 @@
 name: flstudio
 title: flstudio
-version: "21.0.3.3517"
+version: "21.2.1.3859"
 summary: Digital audio workstation developed by Image-Line.
 description: |
   FL Studio is a digital audio workstation developed by the Belgian company Image-Line. It features a graphical user interface with a pattern-based music sequencer.
@@ -26,7 +26,7 @@ apps:
     command: bin/sommelier run-exe
     environment:
       RUN_EXE: "C:/Program Files/Image-Line/FL Studio 21/FL64.exe"
-      INSTALL_EXE: "$SNAP/flstudio_win64_21.0.3.3517.exe"
+      INSTALL_URL: "https://demodownload.image-line.com/flstudio/flstudio_win64_21.2.1.3859.exe"
       INSTALL_FLAGS: "/S"
     plugs:
       - home
@@ -78,4 +78,4 @@ plugs:
   wine-5-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-5-stable
+    default-provider: wine-platform-6-stable
