@@ -1,6 +1,6 @@
 name: flstudio
 title: flstudio
-version: "21.2.1.3859"
+version: "21.2.2.3914"
 summary: Digital audio workstation developed by Image-Line.
 description: |
   FL Studio is a digital audio workstation developed by the Belgian company Image-Line. It features a graphical user interface with a pattern-based music sequencer.
@@ -9,12 +9,11 @@ description: |
 grade: stable
 icon: snap/gui/icon.png
 
-base: core18
+base: core20
 confinement: strict
 
 architectures:
   - build-on: amd64
-  - build-on: i386
 
 environment:
   WINEDLLOVERRIDES: "$WINEDLLOVERRIDES;mscoree,mshtml="    # Prevent pop-ups about Wine Mono and Wine Gecko
@@ -22,11 +21,11 @@ environment:
 
 apps:
   flstudio:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier run-exe
     environment:
       RUN_EXE: "C:/Program Files/Image-Line/FL Studio 21/FL64.exe"
-      INSTALL_URL: "https://demodownload.image-line.com/flstudio/flstudio_win64_21.2.1.3859.exe"
+      INSTALL_URL: "https://demodownload.image-line.com/flstudio/flstudio_win64_21.2.2.3914.exe"
       INSTALL_FLAGS: "/S"
     plugs:
       - home
@@ -42,7 +41,7 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier
     plugs:
       - home
@@ -53,7 +52,7 @@ apps:
  # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier winetricks
     plugs:
       - network
@@ -63,16 +62,29 @@ parts:
   # initializes and configures Wine and installs the Windows application.
   sommelier:
     plugin: make
-    source: https://github.com/snapcrafters/sommelier-core.git
-    source-commit: be2613a07c064afa824eb65c02ddadbe34018126
+    source: https://github.com/mmtrt/sommelier-core.git
+    source-branch: "tmp-core20"
+    
+  fix-fontconfig:
+    plugin: nil
+    after: [gnome-3-38-extension]
+    override-prime: |
+      sed -i '/snap-package/,+1d' $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
+
+  fix-bindtext:
+    plugin: nil
+    after: [gnome-3-38-extension]
+    override-prime: |
+      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -2 | head -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
+      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
 
 # These plugs are used to connect the snap to the wine runtime.
 plugs:
-  wine-runtime:
+  wine-runtime-c20:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime
-  wine-6-stable:
+    default-provider: wine-platform-runtime-core20
+  wine-7-devel:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-6-stable
+    default-provider: wine-platform-7-devel-core20
