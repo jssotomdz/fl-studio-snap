@@ -24,7 +24,7 @@ apps:
     extensions: [ gnome-3-38 ]
     command: bin/sommelier run-exe
     environment:
-      RUN_EXE: "C:/Program Files/Image-Line/FL Studio 24/FL64.exe"
+      RUN_EXE: "C:/Program Files/Image-Line/FL Studio 2024/FL64.exe"
       INSTALL_URL: "https://demodownload.image-line.com/flstudio/flstudio_win64_24.1.1.4239.exe"
       INSTALL_FLAGS: "/S"
     plugs:
